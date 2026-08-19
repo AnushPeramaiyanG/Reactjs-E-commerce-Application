@@ -206,6 +206,45 @@ pipeline {
         }
     }
 
+    stage('Deploy DEV') {
+
+    when {
+        branch 'dev'
+    }
+
+    steps {
+
+        sshagent(['reactjsapp-server-ssh']) {
+
+            sh '''
+                ssh ubuntu@ec2-13-126-43-173.ap-south-1.compute.amazonaws.com \
+                    "cd ~/ReactjsApp/devops-build && \
+                     export APP_IMAGE=${DEV_REPOSITORY}:latest && \
+                     ./deploy.sh"
+            '''
+          }
+        }
+    }
+
+    stage('Deploy PROD') {
+
+    when {
+        branch 'master'
+    }
+
+    steps {
+
+        sshagent(['reactjsapp-server-ssh']) {
+
+            sh '''
+                ssh ubuntu@ec2-13-126-43-173.ap-south-1.compute.amazonaws.com \
+                    "cd ~/ReactjsApp/devops-build && \
+                     export APP_IMAGE=${PROD_REPOSITORY}:latest && \
+                     ./deploy.sh"
+            '''
+         }
+       }
+    }
 
     post {
 

@@ -1,6 +1,6 @@
 services:
   app:
-    image: devops-build:latest
+    image: ${APP_IMAGE}
     container_name: devops-build
     ports:
       - "80:80"
