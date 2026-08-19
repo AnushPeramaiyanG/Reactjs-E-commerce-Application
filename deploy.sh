@@ -2,33 +2,34 @@
 
 set -e
 
-CONTAINER_NAME="devops-build"
-IMAGE_NAME="devops-build"
-IMAGE_TAG="latest"
+echo "=========================================="
+echo "Starting deployment"
+echo "=========================================="
 
-echo "========================================"
-echo "Starting application deployment"
-echo "========================================"
+if [ -z "$APP_IMAGE" ]; then
+    echo "APP_IMAGE is not set."
+    exit 1
+fi
 
-echo "Container: ${CONTAINER_NAME}"
-echo "Image: ${IMAGE_NAME}:${IMAGE_TAG}"
+echo "Deploying image:"
+echo "$APP_IMAGE"
 
-echo "Stopping existing container..."
+docker pull "$APP_IMAGE"
 
-docker compose down || true
-
-echo "Starting application..."
+docker compose down
 
 docker compose up -d
 
-echo "========================================"
-echo "Deployment completed successfully"
-echo "========================================"
+sleep 5
 
-echo "Container status:"
-docker compose ps
+echo "Checking containers..."
 
-echo "Application health check:"
-curl -f http://localhost > /dev/null
+docker ps
 
-echo "Application is UP and responding on port 80."
+echo "Checking application..."
+
+curl -f http://localhost/ > /dev/null
+
+echo "=========================================="
+echo "Deployment successful"
+echo "=========================================="

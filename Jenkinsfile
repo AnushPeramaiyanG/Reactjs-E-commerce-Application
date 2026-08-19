@@ -8,14 +8,11 @@ pipeline {
 
         DOCKERHUB_USERNAME = "anushperamaiyang"
 
-        DEV_REPOSITORY =
-            "${DOCKERHUB_USERNAME}/devops-build-dev"
+        DEV_REPOSITORY = "${DOCKERHUB_USERNAME}/devops-build-dev"
 
-        PROD_REPOSITORY =
-            "${DOCKERHUB_USERNAME}/devops-build-prod"
+        PROD_REPOSITORY = "${DOCKERHUB_USERNAME}/devops-build-prod"
 
-        DOCKER_CREDENTIALS =
-            "dockerhub-credentials"
+        DOCKER_CREDENTIALS = "dockerhub-credentials"
     }
 
     stages {
@@ -31,7 +28,6 @@ pipeline {
                 checkout scm
             }
         }
-
 
         stage('Verify Files') {
 
@@ -60,7 +56,6 @@ pipeline {
             }
         }
 
-
         stage('Build Docker Image') {
 
             steps {
@@ -81,11 +76,9 @@ pipeline {
             }
         }
 
-
         stage('Push DEV Image') {
 
             when {
-
                 branch 'dev'
             }
 
@@ -97,17 +90,10 @@ pipeline {
                 echo "========================================"
 
                 withCredentials([
-
                     usernamePassword(
-
-                        credentialsId:
-                            "${DOCKER_CREDENTIALS}",
-
-                        usernameVariable:
-                            'DOCKER_USERNAME',
-
-                        passwordVariable:
-                            'DOCKER_PASSWORD'
+                        credentialsId: "${DOCKER_CREDENTIALS}",
+                        usernameVariable: 'DOCKER_USERNAME',
+                        passwordVariable: 'DOCKER_PASSWORD'
                     )
                 ]) {
 
@@ -121,19 +107,16 @@ pipeline {
                         --username "$DOCKER_USERNAME" \
                         --password-stdin
 
-
                         echo "Tagging DEV image..."
 
                         docker tag \
                         ${IMAGE_NAME}:latest \
                         ${DEV_REPOSITORY}:latest
 
-
                         echo "Pushing DEV image..."
 
                         docker push \
                         ${DEV_REPOSITORY}:latest
-
 
                         echo "DEV image pushed successfully."
 
@@ -143,11 +126,9 @@ pipeline {
             }
         }
 
-
         stage('Push PROD Image') {
 
             when {
-
                 branch 'master'
             }
 
@@ -159,17 +140,10 @@ pipeline {
                 echo "========================================"
 
                 withCredentials([
-
                     usernamePassword(
-
-                        credentialsId:
-                            "${DOCKER_CREDENTIALS}",
-
-                        usernameVariable:
-                            'DOCKER_USERNAME',
-
-                        passwordVariable:
-                            'DOCKER_PASSWORD'
+                        credentialsId: "${DOCKER_CREDENTIALS}",
+                        usernameVariable: 'DOCKER_USERNAME',
+                        passwordVariable: 'DOCKER_PASSWORD'
                     )
                 ]) {
 
@@ -183,19 +157,16 @@ pipeline {
                         --username "$DOCKER_USERNAME" \
                         --password-stdin
 
-
                         echo "Tagging PROD image..."
 
                         docker tag \
                         ${IMAGE_NAME}:latest \
                         ${PROD_REPOSITORY}:latest
 
-
                         echo "Pushing PROD image..."
 
                         docker push \
                         ${PROD_REPOSITORY}:latest
-
 
                         echo "PROD image pushed successfully."
 
@@ -204,8 +175,61 @@ pipeline {
                 }
             }
         }
-    }
 
+        stage('Deploy DEV') {
+
+            when {
+                branch 'dev'
+            }
+
+            steps {
+
+                echo "========================================"
+                echo "Deploying DEV application"
+                echo "========================================"
+
+                sshagent(credentials: ['reactjsapp-server-ssh']) {
+
+                    sh '''
+                        set -e
+
+                        ssh -o StrictHostKeyChecking=no \
+                            ubuntu@ec2-13-126-43-173.ap-south-1.compute.amazonaws.com \
+                            "cd ~/ReactjsApp/devops-build && \
+                             export APP_IMAGE=${DEV_REPOSITORY}:latest && \
+                             ./deploy.sh"
+                    '''
+                }
+            }
+        }
+
+        stage('Deploy PROD') {
+
+            when {
+                branch 'master'
+            }
+
+            steps {
+
+                echo "========================================"
+                echo "Deploying PROD application"
+                echo "========================================"
+
+                sshagent(credentials: ['reactjsapp-server-ssh']) {
+
+                    sh '''
+                        set -e
+
+                        ssh -o StrictHostKeyChecking=no \
+                            ubuntu@ec2-13-126-43-173.ap-south-1.compute.amazonaws.com \
+                            "cd ~/ReactjsApp/devops-build && \
+                             export APP_IMAGE=${PROD_REPOSITORY}:latest && \
+                             ./deploy.sh"
+                    '''
+                }
+            }
+        }
+    }
 
     post {
 
