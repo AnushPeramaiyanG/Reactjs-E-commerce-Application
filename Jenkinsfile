@@ -188,7 +188,7 @@ pipeline {
                 echo "Deploying DEV application"
                 echo "========================================"
 
-                sshagent(credentials: ['application-server-ssh']) {
+                sshagent(credentials: ['reactjsapp-server-ssh']) {
 
                     sh '''
                         set -e
@@ -215,7 +215,7 @@ pipeline {
                 echo "Deploying PROD application"
                 echo "========================================"
 
-                sshagent(credentials: ['application-server-ssh']) {
+                sshagent(credentials: ['reactjsapp-server-ssh']) {
 
                     sh '''
                         set -e
