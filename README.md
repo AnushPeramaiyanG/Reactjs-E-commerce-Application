@@ -4,6 +4,7 @@ A complete DevOps project demonstrating the deployment, containerization,
 CI/CD automation, Docker Hub image management, AWS EC2 deployment,
 automated application deployment, and open-source monitoring of a React
 application.
+
 ---
 
 📌 Project Overview
@@ -23,6 +24,7 @@ a React application using:
 - Prometheus
 - Grafana
 - Alertmanager
+  
 ---
 
 The project supports separate DEV and PROD Docker image repositories.
@@ -40,6 +42,7 @@ Reactjsapp/devops-build/
 ├── .dockerignore
 ├── .gitignore
 └── README.md
+
 ---
 
 🛠️ Technologies Used
@@ -56,6 +59,7 @@ Ubuntu  -  	Server operating system
 Prometheus  -  	Monitoring
 Grafana  - 	Monitoring dashboard
 Alertmanager  -  	Down notifications
+
 ---
 
 🌿 Git Branch Strategy
@@ -87,6 +91,7 @@ Docker Build
  |
  v
 Docker Hub PROD
+
 ---
 
 🐳 Docker
@@ -105,6 +110,7 @@ docker compose up -d
 
 Stop:
 docker compose down
+
 ---
 
 📜 Bash Scripts
@@ -126,6 +132,7 @@ Validating application availability
 
 Execute:
 ./deploy.sh
+
 ---
 
 🔄 CI/CD Pipeline
@@ -170,6 +177,7 @@ Docker Hub PROD
 Application Server
  |
 Deployment
+
 ---
 
 🔐 Docker Hub
@@ -183,6 +191,7 @@ Visibility: Public
 PROD
 anushperamaiyang/devops-build-prod
 Visibility: Private
+
 ---
 
 ☁️ AWS Infrastructure
@@ -210,6 +219,7 @@ Responsibilities:
 Prometheus
 Grafana
 Alertmanager
+
 ---
 
 🔒 Security Group
@@ -223,6 +233,7 @@ Jenkins:
 Service	Port	Source
 SSH	22	My IP
 Jenkins	8080	My IP
+
 ---
 
 📊 Monitoring
@@ -239,6 +250,7 @@ CPU
 Memory
 Disk
 Network
+
 ---
 
 🚨 Application Down Alert
@@ -258,6 +270,7 @@ ApplicationDown
 Alertmanager
 
 Notifications are generated only when the application is down.
+
 ---
 
 🧪 Health Check
@@ -273,6 +286,7 @@ docker ps
 
 Prometheus:
 application → UP
+
 ---
 
 
@@ -317,4 +331,7 @@ Docker Hub DEV        Docker Hub PROD
 Grafana
    |
    +--> Monitoring Dashboard
+   
 ---   
+
+
