@@ -102,6 +102,7 @@ The production container serves the React application using Nginx.
 
 Application port:80
 
+
 📦 Docker Compose
 
 Docker Compose is used to run the application container.
@@ -114,6 +115,7 @@ docker compose down
 ---
 
 📜 Bash Scripts
+
 build.sh
 
 Responsible for:
