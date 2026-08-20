@@ -327,10 +327,9 @@ Docker Hub DEV        Docker Hub PROD
                |
                v
          Alertmanager
-
-Grafana
-   |
-   +--> Monitoring Dashboard
+               |
+               v
+         Grafana +--> Monitoring Dashboard
    
 ---   
 
