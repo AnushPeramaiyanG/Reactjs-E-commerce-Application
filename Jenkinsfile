@@ -194,7 +194,7 @@ pipeline {
                         set -e
 
                         ssh -o StrictHostKeyChecking=no \
-                            ubuntu@ec2-13-126-43-173.ap-south-1.compute.amazonaws.com \
+                            ubuntu@ec2-3-109-3-255.ap-south-1.compute.amazonaws.com \
                             "cd ~/ReactjsApp/devops-build && \
                              export APP_IMAGE=${DEV_REPOSITORY}:latest && \
                              ./deploy.sh"
@@ -221,7 +221,7 @@ pipeline {
                         set -e
 
                         ssh -o StrictHostKeyChecking=no \
-                            ubuntu@ec2-13-126-43-173.ap-south-1.compute.amazonaws.com \
+                            ubuntu@ec2-3-109-3-255.ap-south-1.compute.amazonaws.com \
                             "cd ~/ReactjsApp/devops-build && \
                              export APP_IMAGE=${PROD_REPOSITORY}:latest && \
                              ./deploy.sh"
