@@ -24,7 +24,9 @@ a React application using:
 - Prometheus
 - Grafana
 - Alertmanager
+
   
+
 ---
 
 The project supports separate DEV and PROD Docker image repositories.
@@ -107,6 +109,7 @@ Application port:80
 
 Docker Compose is used to run the application container.
 
+Start:
 docker compose up -d
 
 Stop:
@@ -207,7 +210,7 @@ Docker Compose
 React application
 Node Exporter
 
-Application: http://ec2-3-109-3-255.ap-south-1.compute.amazonaws.com/
+Application: http://ec2-15-206-165-232.ap-south-1.compute.amazonaws.com/
 
 Jenkins Server
 Responsibilities:
@@ -291,7 +294,6 @@ application → UP
 
 ---
 
-
 🏗️ Architecture
 
 GitHub
@@ -332,7 +334,5 @@ Docker Hub DEV        Docker Hub PROD
                |
                v
          Grafana +--> Monitoring Dashboard
-   
----   
 
-
+---
